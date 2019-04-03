@@ -19,8 +19,8 @@ public class QrService {
 		return qrRepository.save(qr);
 	}
 	
-	public List<QR> findAllQR(List<QR> list){
-		return list;
+	public List<QR> findAllQR(){
+		return qrRepository.findAll();
 	}
 	
 }

@@ -24,7 +24,6 @@
 	rel="stylesheet">
 
 <title layout:title-pattern="$CONTENT_TITLE - $LAYOUT_TITLE">QR-Factory</title>
-<link rel="stylesheet" type="text/css" href="../css/default.css" />
 <!-- Material design start libs -->
 <link rel="stylesheet"
 	href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
@@ -87,6 +86,8 @@
 <style type="text/css">
 body {
 	font-family: 'Roboto', sans-serif;
+	background-image: url("../img/bg_tile.gif");
+	background-repeat: repeat;
 }
 
 a {
@@ -101,12 +102,15 @@ a:hover {
 </head>
 
 <body>
+<div class="container">
+<div class="container-fluid">
 <div class="card">
-	<h2 class="card-header text-white blue-gradient"><img src="../img/molokotechLogo.png" style="width:300px; height:auto"><strong> - QR-Factory</strong></h2>
+	<h2 class="card-header text-white blue-gradient"><img src="../img/molokotechLogo.png" style="width:300px; height:auto"><strong style="text-shadow:1px 1px black;"> - QR-Factory</strong></h2>
 	<div style="padding:50px;">
 		<div class="form-group">
-			<label>Cantidad de Códigos QR</label> <br>
+			<label>Cantidad de Códigos QR </label> <br>
 			<input type="number" id="quantity" min="1" max="5"><br>
+			<small><strong>Máximo por tirada 100 unidades, y 1000 totales en DB, por más cantidad comunicarse con <a style="color:#ff8000" href="mailto:info@molokotech.com">info@molkotech.com</a></strong></small>
 		</div>
 
 		<div class="form-group">
@@ -193,7 +197,7 @@ a:hover {
 						onclick="redirectTo()"> |   | Powered by <img src="../img/heroku-logo.png" id="herokuLogo" onclick="window.location.href='https://heroku.com'" class="img-fluid" style="height:28px"><span class="small">
 						<strong style="color: #ff8000">Vet-Cloud</strong>® y <Strong
 						style="color: #ff8000">Pet-QR</Strong>® <span>son marcas Registradas de</span> 
-						<strong style="color: #ff8000">Molokotech Solutions</strong>.</span>
+						<strong style="color: #ff8000">Molokotech Solutions</strong>.</span> <small>Otros productos <a style="color:lightpurple"href="https://pet-qr.com"><img src="../img/iconoPet32x32.png" style="width:16px; height:auto;"> Pet-QR.com</a> | <a href="https://return-home.com"><img src="../img/logoRH32x32.png" style="width:16px; height:auto;"> Return-Home.com</a></small>
 
 
 				</div>
@@ -212,5 +216,7 @@ a:hover {
 		</div>
 
 	</footer>
+	</div>
+	</div>
 </body>
 </html>
