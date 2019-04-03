@@ -38,7 +38,7 @@ public class QrFactoryControllers {
 					}
 				};
 				hilo.run();
-				Thread.sleep(1500);
+				Thread.sleep(500);
 				
 				System.out.println("size:" + list.size());
 				list.add(qr);

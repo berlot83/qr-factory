@@ -102,11 +102,11 @@ a:hover {
 
 <body>
 <div class="card">
-	<h2 class="card-header text-white blue-gradient">QR-Factory</h2>
+	<h2 class="card-header text-white blue-gradient"><img src="../img/molokotechLogo.png" style="width:300px; height:auto"><strong> - QR-Factory</strong></h2>
 	<div style="padding:50px;">
 		<div class="form-group">
 			<label>Cantidad de Códigos QR</label> <br>
-			<input type="number" id="quantity"><br>
+			<input type="number" id="quantity" min="1" max="5"><br>
 		</div>
 
 		<div class="form-group">
@@ -119,6 +119,11 @@ a:hover {
 	<div>
 	<ul id="ulResult"></ul>
 	</div>
+	<br>
+		<br>
+			<br>
+				<br>
+					<br>
 	<script type="text/javascript">
 	function qrFactory(){
 		var quantity = document.getElementById("quantity").value;
@@ -127,31 +132,54 @@ a:hover {
 		var xhr = new XMLHttpRequest();
 		var ulResult = document.getElementById("ulResult");
 		
-		xhr.onreadystatechange = function(){
-			if(xhr.readyState == 4 && xhr.status == 200){
-				// 				alert("End");
-				var response = xhr.responseText;
-				var data = JSON.parse(response);
-				for(var i= 0; i < data.length; i++){
-					var li = document.createElement("li");
-					var node = document.createTextNode("shortId= "+data[i].shortId + ", Ruta elegida: "+root+data[i].shortId + ", Tamaño: 300 x 300 px");
-					li.appendChild(node);
-					ulResult.appendChild(li);
-					var img = document.createElement("img");
-					img.src="data:image/png;base64,"+data[i].strBase64;
-					img.setAttribute("width", 100);
-					img.setAttribute("height", 100);
-					li.appendChild(img);
-}
-
-			}
+		
+		if(quantity < 100){
+			
+				$.alert({
+					type:"purple",
+					title:"Atención",
+					content:"Por favor espera almenos "+ quantity + " segundos, hasta que termine de ejecutarse el hilo o proceso"
+				});
+			
+			xhr.onreadystatechange = function(){
+				if(xhr.readyState == 4 && xhr.status == 200){
+					var response = xhr.responseText;
+					var data = JSON.parse(response);
+					for(var i= 0; i < data.length; i++){
+						var li = document.createElement("li");
+						var node = document.createTextNode("shortId= "+data[i].shortId + ", Ruta elegida: "+root+data[i].shortId + ", Tamaño: 300 x 300 px");
+						li.appendChild(node);
+						ulResult.appendChild(li);
+						var img = document.createElement("img");
+						img.src="data:image/png;base64,"+data[i].strBase64;
+						img.setAttribute("width", 100);
+						img.setAttribute("height", 100);
+						img.style.margin = "7px";
+						li.appendChild(img);
+						
+// 						var base64 = data[i].strBase64;
+						
+// 						li.onclick = function(){
+// 							$.alert({
+// 								type:"blue",
+// 								title:"Tamaño original:",
+// 								content:"<html><body><img src='data:image/png;base64,'"+base64+"></body></html>"
+// 							});
+// 						}
+					
+					}
+				}
+			}	
+			xhr.open("GET", url,true);
+			xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");		
+			xhr.send();
+		}else{
+			$.alert({
+				type:"purple",
+				title:"Atención",
+				content:"No puede superar los 100 QR por insercción."
+			});
 		}
-		
-		
-		xhr.open("GET", url,true);
-		xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");		
-		xhr.send();
-		
 	}
 	</script>
 	<!-- /.container -->
