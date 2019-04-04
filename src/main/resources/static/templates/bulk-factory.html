@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	th:with="lang=${#locale.language}" th:lang="${lang}">
+<header th:replace="default :: header"></header>
+<body>
+<div class="container">
+<div class="container-fluid">
+<div class="card">
+	<h2 class="card-header text-white blue-gradient"><img src="../img/molokotechLogo.png" style="width:300px; height:auto" id="logo" onclick="window.location.href= '/index'" onmouseover="style.cursor='pointer'"><strong style="text-shadow:1px 1px black;"> - QR-Factory</strong></h2>
+	<div style="padding:50px;">
+		<div class="form-group">
+			<label>Cantidad de Códigos QR </label> <br>
+			<input type="number" id="quantity" min="1" max="5"><br>
+			<small><strong>Máximo por tirada 100 unidades, y 1000 totales en DB, por más cantidad comunicarse con <a style="color:#ff8000" href="mailto:info@molokotech.com">info@molokotech.com</a></strong></small>
+		</div>
+
+		<div class="form-group">
+			<label>Root (ruta del servicio)</label><br>
+			<input type="text" id="root"> <br>
+			<small><strong>https://example.com/id/</strong></small>
+		</div>
+		<button class="btn btn-md blue-gradient" onclick="qrFactory()">Crear y persistir en DB</button>
+	</div>
+	<div>
+	<ul id="ulResult"></ul>
+	</div>
+	<br>
+		<br>
+			<br>
+				<br>
+					<br>
+	<script type="text/javascript">
+	function qrFactory(){
+		var quantity = document.getElementById("quantity").value;
+		var root = document.getElementById("root").value;
+		var url = "/qr-factory?quantity="+quantity+"&root="+root;
+		var xhr = new XMLHttpRequest();
+		var ulResult = document.getElementById("ulResult");
+		
+		if(quantity < 100){
+				$.alert({
+					type:"purple",
+					title:"Atención",
+					content:"Por favor espera almenos "+ quantity + " segundos, hasta que termine de ejecutarse el hilo o proceso"
+				});
+			
+			xhr.onreadystatechange = function(){
+				if(xhr.readyState == 4 && xhr.status == 200){
+					var response = xhr.responseText;
+					var data = JSON.parse(response);
+					for(var i= 0; i < data.length; i++){
+						var li = document.createElement("li");
+						var node = document.createTextNode("shortId= "+data[i].shortId + ", Ruta elegida: "+root+data[i].shortId + ", Tamaño: 300 x 300 px");
+						li.appendChild(node);
+						ulResult.appendChild(li);
+						var img = document.createElement("img");
+						img.src="data:image/png;base64,"+data[i].strBase64;
+						img.setAttribute("width", 100);
+						img.setAttribute("height", 100);
+						img.style.margin = "7px";
+						li.appendChild(img);
+					}
+				}
+			}	
+			xhr.open("GET", url,true);
+			xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");		
+			xhr.send();
+		}else{
+			$.alert({
+				type:"purple",
+				title:"Atención",
+				content:"No puede superar los 100 QR por insercción."
+			});
+		}
+	}
+	</script>
+	<!-- /.container -->
+</div>
+	</div>
+	</div>
+
+</body>
+<footer th:replace="default :: footer"></footer>

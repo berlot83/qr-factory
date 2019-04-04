@@ -21,6 +21,13 @@ public class QrFactoryControllers {
 
 	@Autowired
 	QrService qrService;
+	
+	@GetMapping("/qr-simple")
+	public String qrSimple(String root) throws WriterException, IOException {
+		byte[] image = QRCodeGenerator.generateQRCodeImageToByte(root, 300, 300);
+		String strBase64 = QRCodeGenerator.toBase64(image);
+		return strBase64;
+	}
 
 	@GetMapping("/qr-factory")
 	public List<QR> qrFactory(@RequestParam("quantity") int quantity, @RequestParam("root") String root) throws InterruptedException, WriterException, IOException {
